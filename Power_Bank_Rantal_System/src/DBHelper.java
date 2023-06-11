@@ -2,9 +2,9 @@ import java.sql.*;
 
 public class DBHelper implements DBConfig{
 
-    private Connection conn = null;
-    private Statement stmt = null;
-    private ResultSet rs = null;
+    public Connection conn = null;
+    public Statement stmt = null;
+    public ResultSet rs = null;
 
 
 
@@ -16,8 +16,8 @@ public class DBHelper implements DBConfig{
             stmt = conn.createStatement();
 
             i = stmt.executeUpdate(sql);
-            stmt.close();
-            conn.close();
+            //stmt.close();
+            //conn.close();
 
         }catch(ClassNotFoundException e){
             e.printStackTrace();
@@ -34,10 +34,9 @@ public class DBHelper implements DBConfig{
             stmt = conn.createStatement();
 
             rs = stmt.executeQuery(sql);
-            stmt.close();
-            conn.close();
-            rs.close();
-
+            //rs.close();
+            //stmt.close();
+            //conn.close();
         }catch(ClassNotFoundException e){
             e.printStackTrace();
         }catch (SQLException e){

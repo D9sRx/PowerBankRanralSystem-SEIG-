@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class LoginGUI {
 
-    JFrame jf;
+    static JFrame jf;
     JPanel jp1,jp2,jp3,jp4;
     JButton jb1,jb2,jb3;
-    JLabel jl1,jl2,jl3,jl4;
+    JLabel jl1,jl2;
     JTextField jt1;
     JPasswordField jpw2;
     JRadioButton jr1,jr2;
@@ -24,8 +24,15 @@ public class LoginGUI {
         jf.setLayout(new GridLayout(4, 1));
         jf.setSize(400, 200);
 
+        //获取屏幕和窗口属性，让窗口显示在屏幕中央
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int frameWidth = jf.getWidth();
+        int frameHeight = jf.getHeight();
+        jf.setLocation((screenWidth - frameWidth) / 2,(screenHeight - frameHeight) / 2);
 
 
+        //new 一些JPanel
         jp1 = new JPanel();
         jp2 = new JPanel();
         jp3 = new JPanel();
@@ -42,8 +49,6 @@ public class LoginGUI {
         //new一些需要的标签和按钮
         jl1 = new JLabel("用户名");
         jl2 = new JLabel("密    码");
-        jl3 = new JLabel("用户");
-        jl4 = new JLabel("管理员");
 
         jt1 = new JTextField(20);
         jpw2 = new JPasswordField(20);
@@ -54,8 +59,10 @@ public class LoginGUI {
 
         buttonGroup = new ButtonGroup();
 
-        jr1 = new JRadioButton();
-        jr2 = new JRadioButton();
+        jr1 = new JRadioButton("用户",true);
+        jr2 = new JRadioButton("管理员",false);
+
+        jr1.isSelected();
 
         //设置透明度使背景可见
         jp1.setOpaque(false);
@@ -84,10 +91,9 @@ public class LoginGUI {
 
         jp3.add(jb1);
         jp3.add(jb2);
+        jp3.add(jb3);
 
-        jp4.add(jl3);
         jp4.add(jr1);
-        jp4.add(jl4);
         jp4.add(jr2);
 
         jf.setVisible(true);
@@ -95,6 +101,7 @@ public class LoginGUI {
         //添加监听器
         jb1.addActionListener(new Event(this));
         jb2.addActionListener(new Event(this));
+        jb3.addActionListener(new Event(this));
     }
 
 

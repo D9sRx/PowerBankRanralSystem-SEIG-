@@ -24,17 +24,28 @@ public class AdminGUI {
         //new个jFrame的对象
         jFrame = new JFrame("管理员界面");
         jFrame.setResizable(false);
+
+        //获取屏幕和窗口属性，让窗口显示在屏幕中央
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int frameWidth = jFrame.getWidth();
+        int frameHeight = jFrame.getHeight();
+        jFrame.setLocation((screenWidth - frameWidth) / 2,(screenHeight - frameHeight) / 2);
+
         //new一个jPanel的对象
         jPanel = new JPanel();
+
         //new一个label对象
         jLabel = new JLabel("欢迎进入管理员界面");
         jLabel.setFont(new Font("得意黑", Font.BOLD, 20)); // 设置字体大小为20
         jLabel.setHorizontalAlignment(SwingConstants.CENTER); // 设置水平居中
         jLabel.setVerticalAlignment(SwingConstants.CENTER); // 设置垂直居中
+
         //按钮的设置
         jButton1 = new JButton("刷新");
         jButton2 = new JButton("下架");
         jButton3 = new JButton("删除");
+
         //添加按钮的监听器
         jButton1.addActionListener(new AdminEvent(this));
         jButton2.addActionListener(new AdminEvent(this));
@@ -55,17 +66,18 @@ public class AdminGUI {
         jSplitPane.setOneTouchExpandable(false);
         jSplitPane.setDividerLocation(120);
         jSplitPane.setDividerSize(0);
+
         //new对象
         root = new DefaultMutableTreeNode("系统管理");
-        personalCenter = new DefaultMutableTreeNode("个人中心");
         userManagement = new DefaultMutableTreeNode("用户管理");
         orderManagement = new DefaultMutableTreeNode("订单管理");
         powerBankManagement = new DefaultMutableTreeNode("充电宝管理");
+
         //添加组件
-        root.add(personalCenter);
         root.add(userManagement);
         root.add(orderManagement);
         root.add(powerBankManagement);
+
         //tree的对象
         jTree = new JTree(root);
 
@@ -74,23 +86,18 @@ public class AdminGUI {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
                 Object lastPathComponent = e.getNewLeadSelectionPath().getLastPathComponent();
-                if (personalCenter.equals(lastPathComponent)) {
-                    jSplitPane.setRightComponent(new PersonalCenterComponent());
-                    jSplitPane.setDividerLocation(120);
-                    jSplitPane.setDividerSize(0);
-                }
                 if (userManagement.equals(lastPathComponent)) {
-                    jSplitPane.setRightComponent(new Label("2"));
+                    jSplitPane.setRightComponent(new Label("1"));
                     jSplitPane.setDividerLocation(120);
                     jSplitPane.setDividerSize(0);
                 }
                 if (orderManagement.equals(lastPathComponent)) {
-                    jSplitPane.setRightComponent(new Label("3"));
+                    jSplitPane.setRightComponent(new OrderManagement());
                     jSplitPane.setDividerLocation(120);
                     jSplitPane.setDividerSize(0);
                 }
                 if (powerBankManagement.equals(lastPathComponent)) {
-                    //sp.setRightComponent(new PersonalCenterComponent());
+                    jSplitPane.setRightComponent(new Label("3"));
                     jSplitPane.setDividerLocation(120);
                     jSplitPane.setDividerSize(0);
                 }
