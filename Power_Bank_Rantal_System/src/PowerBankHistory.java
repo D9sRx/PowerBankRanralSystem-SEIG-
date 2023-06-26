@@ -50,7 +50,8 @@ public class PowerBankHistory extends Box{
     }
 
     private void loadData(){
-        String sql = "SELECT * FROM billcount";
+        Data data = new Data();
+        String sql = "SELECT * FROM billcount where username = '"+data.userName+"'";
         dbHelper = new DBHelper();
         ResultSet rs = dbHelper.query(sql);
         try {

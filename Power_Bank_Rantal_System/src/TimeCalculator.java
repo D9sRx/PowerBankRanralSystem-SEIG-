@@ -2,19 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class TimeCalculator extends JFrame {
-    private  int seconds = 0;
-    private  int minutes = 0;
-    private  int hours = 0;
+    public int seconds = 0;
+    public int minutes = 0;
+    public int hours = 0;
 
-    Data data;
+
+    DataUploader dataUploader;
+
+    PowerBankBillCountor powerBankBillCountor;
 
     public TimeCalculator() {
 
-        data = new Data();
+        //data = new Data();
+        dataUploader = new DataUploader();
+        powerBankBillCountor = new PowerBankBillCountor();
         JFrame frame = new JFrame("Timer Demo");
         frame.setLayout(new GridLayout(3,1));//重新设置布局
 
@@ -48,8 +54,10 @@ public class TimeCalculator extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println(label.getText());//打印时间
-                JOptionPane.showMessageDialog(null, "退还成功\n"+"总使用时长为"+label.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
 
+
+                JOptionPane.showMessageDialog(null, "退还成功\n"+"总使用时长为"+label.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                Data data = new Data();
                 // 获取当前系统时间
                 Date currentTime = new Date();
 
@@ -59,15 +67,37 @@ public class TimeCalculator extends JFrame {
                 // 格式化当前系统时间
                 String formattedTime = dateFormat.format(currentTime);
 
-                data.setOverTime(formattedTime);//保存
+                seconds += minutes*60+hours*3600;
 
 
+                data.setOverTime(formattedTime);
+                data.setSecond(seconds);
+                data.setMinutes(minutes);
+                data.setHours(hours);
+
+
+                powerBankBillCountor.count();
+                dataUploader.upload();
+
+                PowerBankBillCountor pc = new PowerBankBillCountor();
+                DBHelper dbHelper = new DBHelper();
+                String sql = "update powerbanktable set power = '"+pc.power+"' where id = 1";
+                int i =dbHelper.update(sql);
+                if (i > 0) {
+                    try {
+                        dbHelper.stmt.close();
+                        dbHelper.conn.close();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 
                 frame.dispose();
                 hours=0;
                 minutes=0;
                 seconds=0;
                 timer.stop();//停止并且重新设置时间
+
 
             }
         });

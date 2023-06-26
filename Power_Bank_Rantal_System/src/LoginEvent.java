@@ -41,6 +41,7 @@ public class LoginEvent extends DBHelper implements ActionListener {
 
                         JOptionPane.showMessageDialog(null,"登录成功","Success",JOptionPane.INFORMATION_MESSAGE);
                         UserGUI userGUI = new UserGUI();
+                        //data.userName=currentUsername;
                         data.setUserName(currentUsername);
                         lg.jf.dispose();
 

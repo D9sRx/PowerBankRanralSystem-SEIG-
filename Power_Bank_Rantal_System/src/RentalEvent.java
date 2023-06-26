@@ -16,6 +16,7 @@ public class RentalEvent implements ActionListener {
         // 获取当前系统时间
         Date currentTime = new Date();
 
+
         // 定义日期时间格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

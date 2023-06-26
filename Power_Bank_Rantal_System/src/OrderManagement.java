@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 public class OrderManagement extends Box {
@@ -12,6 +14,7 @@ public class OrderManagement extends Box {
 
     private TableModel tableModel;
     JPanel jPanel;
+    DBHelper dbHelper;
     public OrderManagement() {
         super(BoxLayout.Y_AXIS);
 
@@ -34,6 +37,43 @@ public class OrderManagement extends Box {
         JScrollPane jScrollPane=new JScrollPane(table);
 
         this.add(jScrollPane);
+
+        loadData();
     }
 
+    private void loadData(){
+        String sql = "SELECT * FROM billcount";
+        dbHelper = new DBHelper();
+        ResultSet rs = dbHelper.query(sql);
+        try {
+
+            // 遍历结果集并将数据插入到表格模型中
+            while (rs.next()) {
+
+                Vector<Object> rowData = new Vector<>();
+                rowData.add(rs.getInt("id"));
+                rowData.add(rs.getString("username"));
+                rowData.add(rs.getString("startTime"));
+                rowData.add(rs.getString("overTime"));
+                rowData.add(rs.getDouble("bill"));
+                tableData.add(rowData);
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally{
+            try{
+                // 关闭结果集
+                rs.close();
+                dbHelper.rs.close();
+                dbHelper.stmt.close();
+                dbHelper.conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
 }

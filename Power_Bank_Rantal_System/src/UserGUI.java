@@ -12,9 +12,10 @@ public class UserGUI {
     JMenu jm;
     JMenuItem jmi1,jmi2,jmi3;
     LoginGUI loginGUI;
+    JLabel jl1;
     public UserGUI(){
         jf=new JFrame("用户界面系统");
-        jf.setResizable(false);
+        jf.setResizable(true);
         jf.setDefaultCloseOperation(3);
         jf.setSize(800,400);
 
@@ -26,6 +27,7 @@ public class UserGUI {
         jf.setLocation((screenWidth - frameWidth) / 2,(screenHeight - frameHeight) / 2);
 
         jmb=new JMenuBar();
+        jl1 = new JLabel("欢迎使用充电宝租借系统");
         jm = new JMenu("设置");
         jmi1=new JMenuItem("切换账号");
         jmi1.addActionListener(new ActionListener() {
@@ -53,9 +55,11 @@ public class UserGUI {
 
 
         JSplitPane sp=new JSplitPane();
+        sp.setRightComponent(jl1);
         sp.setContinuousLayout(true);
         sp.setDividerLocation(120);
         sp.setDividerSize(6);
+
 
         DefaultMutableTreeNode root=new DefaultMutableTreeNode("系统管理");
         DefaultMutableTreeNode orderManagement=new DefaultMutableTreeNode("订单管理");
