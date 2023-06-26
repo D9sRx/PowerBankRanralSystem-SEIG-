@@ -24,6 +24,7 @@ public class AdminGUI {
         //new个jFrame的对象
         jFrame = new JFrame("管理员界面");
         jFrame.setResizable(false);
+        jFrame.setSize(800,600);
 
         //获取屏幕和窗口属性，让窗口显示在屏幕中央
         int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;

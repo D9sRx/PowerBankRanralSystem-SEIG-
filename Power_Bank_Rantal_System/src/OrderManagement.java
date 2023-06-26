@@ -30,6 +30,7 @@ public class OrderManagement extends Box {
             }
         };
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.getTableHeader().setReorderingAllowed(false);
         JScrollPane jScrollPane=new JScrollPane(table);
 
         this.add(jScrollPane);

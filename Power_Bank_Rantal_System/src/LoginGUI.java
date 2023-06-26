@@ -99,9 +99,10 @@ public class LoginGUI {
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //添加监听器
-        jb1.addActionListener(new Event(this));
-        jb2.addActionListener(new Event(this));
-        jb3.addActionListener(new Event(this));
+        jb1.addActionListener(new LoginEvent(this));
+        jb2.addActionListener(new LoginEvent(this));
+        jb3.addActionListener(new LoginEvent(this));
+        jpw2.addKeyListener(new KeyBoardEvent());
     }
 
 

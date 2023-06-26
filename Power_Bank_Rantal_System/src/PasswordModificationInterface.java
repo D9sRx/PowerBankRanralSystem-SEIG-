@@ -27,7 +27,7 @@ public  class PasswordModificationInterface extends Frame{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 jf.dispose();
-                new UserFaceMean();
+                new UserGUI();
             }
         });
         jpf1=new JPasswordField(16);
