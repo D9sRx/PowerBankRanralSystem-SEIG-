@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBHelper implements DBConfig{
 
-    public Connection conn = null;
+    public static Connection conn = null;
     public Statement stmt = null;
     public ResultSet rs = null;
 
@@ -43,5 +43,16 @@ public class DBHelper implements DBConfig{
             e.printStackTrace();
         }
         return rs;
+    }
+
+    public static Connection getConn() throws ClassNotFoundException{
+        Class.forName(JDBC_DRIVER);
+        try{
+            conn = DriverManager.getConnection(url,user,password);
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+        return conn;
+
     }
 }

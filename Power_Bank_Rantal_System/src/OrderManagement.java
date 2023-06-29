@@ -2,21 +2,36 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
 public class OrderManagement extends Box {
     private JTable table;
+
+    public JTextField jTextField;
+
+    private JLabel jLabel1;
+
+    private JPanel jPanel1,jPanel2;
+    private JButton jButton;
     private Vector<String> titles;
 
     private Vector<Vector> tableData;
 
     private TableModel tableModel;
-    JPanel jPanel;
     DBHelper dbHelper;
     public OrderManagement() {
+
         super(BoxLayout.Y_AXIS);
+        //新建一些需要的组件的对象
+        jPanel1 = new JPanel();
+        jPanel2 = new JPanel();
+        jButton = new JButton("删除");
+        jLabel1 = new JLabel("编号为：");
+        jTextField = new JTextField(20);
 
         //组装表格
         String[] ts={"编号","账号","开始时间","结束时间","费用"};
@@ -38,6 +53,24 @@ public class OrderManagement extends Box {
 
         this.add(jScrollPane);
 
+        //组装组件
+        jPanel1.add(jLabel1);
+        jPanel1.add(jTextField);
+        jPanel2.add(jButton);
+        jButton.addActionListener(new DeleteHistory());
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = table.getSelectedRow();
+                jTextField.setText(table.getValueAt(row,0)+"");
+                Data.setHid((Integer) table.getValueAt(row,0));
+            }
+        });
+
+        this.add(jPanel1);
+        this.add(jPanel2);
+
+        //加载数据
         loadData();
     }
 

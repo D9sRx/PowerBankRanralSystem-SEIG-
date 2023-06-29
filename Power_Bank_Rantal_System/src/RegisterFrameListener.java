@@ -36,9 +36,9 @@ public class RegisterFrameListener implements ActionListener {
 
                 JOptionPane.showMessageDialog(null,"密码不一致,请重新输入","Warning",JOptionPane.WARNING_MESSAGE);
 
-            } else if (((JButton) o).getActionCommand().equals("注册") && passWord1.equals(passWord2) && loginGUI.jr1.isSelected()) {
+            } else if (((JButton) o).getActionCommand().equals("注册") && passWord1.equals(passWord2) && LoginGUI.jr1.isSelected()) {
 
-                String sql = "INSERT INTO usertable(username,password) VALUES ('"+userName+"','"+passWord1+"')";
+                String sql = "INSERT INTO usertable(username,password,money) VALUES ('"+userName+"','"+passWord1+"',0)";
 
                 int i = dbHelper.update(sql);
                 if(i>0){

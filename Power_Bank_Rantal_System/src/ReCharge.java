@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ReCharge extends JFrame {
     JFrame jf;
@@ -28,7 +29,7 @@ public class ReCharge extends JFrame {
 
         jl=new JLabel("请输入你要充值的金额");
 
-        jtf=new JTextField(9);
+        jtf=new JTextField(12);
 
         KeyBoardEvent keyBoardEvent =new KeyBoardEvent();
 
@@ -36,9 +37,35 @@ public class ReCharge extends JFrame {
 
         jb1=new JButton("充值");
 
-        RechargeListener actionListener=new RechargeListener(this);
+        jb1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object obj = e.getSource();
+                if(e.getActionCommand().equals("充值")){
+                    DBHelper dbHelper = new DBHelper();
+                    String values = jtf.getText();
+                    System.out.println(values);
+                    Double money = Double.parseDouble(values);
+                    String sql = "update usertable set money = money+'"+money+"' where username = '"+Data.userName+"'";
+                    int i =dbHelper.update(sql);
+                    if (i > 0) {
 
-        jb1.addActionListener(actionListener);
+                        JOptionPane.showMessageDialog(null, "充值成功", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        try {
+                            dbHelper.stmt.close();
+                            dbHelper.conn.close();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+                }
+
+            }
+        });
+
+
+
         jb2=new JButton("退出");
         jb2.addActionListener(new ActionListener() {
             @Override

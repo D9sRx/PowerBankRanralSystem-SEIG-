@@ -20,7 +20,7 @@ public class PersonalCenterConponent extends Box{
         JPanel jp=new JPanel();
         jp.setLayout(new GridLayout(3,1,0,20));
 
-        jl1=new JLabel("余额");
+        jl1=new JLabel("点击查询余额");
 
         Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
         jl1.setBorder(border);

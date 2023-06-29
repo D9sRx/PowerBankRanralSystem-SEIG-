@@ -12,7 +12,8 @@ public class LoginGUI {
     JLabel jl1,jl2;
     JTextField jt1;
     JPasswordField jpw2;
-    JRadioButton jr1,jr2;
+    static JRadioButton jr1;
+    JRadioButton jr2;
     ButtonGroup buttonGroup;
 
     public LoginGUI() {

@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class UserGUI {
     JFrame jf;
@@ -25,7 +26,7 @@ public class UserGUI {
         int frameWidth = jf.getWidth();
         int frameHeight = jf.getHeight();
         jf.setLocation((screenWidth - frameWidth) / 2,(screenHeight - frameHeight) / 2);
-
+        //菜单栏
         jmb=new JMenuBar();
         jl1 = new JLabel("欢迎使用充电宝租借系统");
         jm = new JMenu("设置");
@@ -48,7 +49,7 @@ public class UserGUI {
         jmi3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new PasswordModificationInterface();
+                new PasswordModification();
                 jf.dispose();
             }
         });
@@ -60,7 +61,7 @@ public class UserGUI {
         sp.setDividerLocation(120);
         sp.setDividerSize(6);
 
-
+        //组装树
         DefaultMutableTreeNode root=new DefaultMutableTreeNode("系统管理");
         DefaultMutableTreeNode orderManagement=new DefaultMutableTreeNode("订单管理");
         DefaultMutableTreeNode powerBankUsage=new DefaultMutableTreeNode("充电宝使用");
@@ -81,7 +82,11 @@ public class UserGUI {
                     sp.setDividerLocation(120);
                     sp.setDividerSize(6);
                 }if(powerBankUsage.equals(lastPathComponent)){
-                    sp.setRightComponent(new PowerBankUsage());
+                    try {
+                        sp.setRightComponent(new PowerBankUsage());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     sp.setDividerLocation(120);
                     sp.setDividerSize(6);
                 }if(pensonalCenter.equals(lastPathComponent)){

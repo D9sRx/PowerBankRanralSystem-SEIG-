@@ -1,19 +1,32 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class RentalEvent implements ActionListener {
+public class RentalEvent implements ActionListener{
 
-    PowerBankUsage powerBankUsage;
+
     Data data;
+    public static String type;
+
+    public static String selectedPowerBank;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        powerBankUsage = new PowerBankUsage();
+
+
+        try {
+            PowerBankUsage powerBankUsage = new PowerBankUsage();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
         data = new Data();
-        String selectedPowerBank = (String) powerBankUsage.comboBox.getSelectedItem();
-        // 获取当前系统时间
+
         Date currentTime = new Date();
 
 
@@ -25,12 +38,29 @@ public class RentalEvent implements ActionListener {
 
 
         Object obj = e.getSource();
-        if(e.getActionCommand().equals("租借")&& selectedPowerBank.equals("普通充电宝")){
-            TimeCalculator timeCalculator = new TimeCalculator();
-            data.setStartTime(formattedTime);
-        } else if (e.getActionCommand().equals("租借")&& selectedPowerBank.equals("快充充电宝")) {
-            TimeCalculator timeCalculator = new TimeCalculator();
-            data.setStartTime(formattedTime);
+        CheckPower cp = new CheckPower();
+        CheckStatus cs = new CheckStatus();
+
+
+        if(e.getActionCommand().equals("租借")){
+
+            try {
+                cp.check();
+                System.out.println(CheckPower.power);
+                cs.checkStatus();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if(CheckPower.power > 20 && PersoalCenterAdapter.money > 0 && CheckStatus.status.equals("未被租借")){
+
+                TimeCalculator timeCalculator = new TimeCalculator();
+                data.setStartTime(formattedTime);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "租借失败,已被租借或电宝没电或欠费", "Failed", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
+
 }

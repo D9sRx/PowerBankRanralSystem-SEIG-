@@ -17,7 +17,7 @@ public class AdminGUI {
     JSplitPane jSplitPane;
     JTree jTree;
 
-    DefaultMutableTreeNode root,personalCenter,userManagement,orderManagement,powerBankManagement;
+    DefaultMutableTreeNode root,userManagement,orderManagement,powerBankManagement;
 
 
     public AdminGUI(){
@@ -32,9 +32,6 @@ public class AdminGUI {
         int frameWidth = jFrame.getWidth();
         int frameHeight = jFrame.getHeight();
         jFrame.setLocation((screenWidth - frameWidth) / 2,(screenHeight - frameHeight) / 2);
-
-        //new一个jPanel的对象
-        jPanel = new JPanel();
 
         //new一个label对象
         jLabel = new JLabel("欢迎进入管理员界面");
@@ -88,7 +85,7 @@ public class AdminGUI {
             public void valueChanged(TreeSelectionEvent e) {
                 Object lastPathComponent = e.getNewLeadSelectionPath().getLastPathComponent();
                 if (userManagement.equals(lastPathComponent)) {
-                    jSplitPane.setRightComponent(new Label("1"));
+                    jSplitPane.setRightComponent(new UserManagement());
                     jSplitPane.setDividerLocation(120);
                     jSplitPane.setDividerSize(0);
                 }
@@ -98,28 +95,22 @@ public class AdminGUI {
                     jSplitPane.setDividerSize(0);
                 }
                 if (powerBankManagement.equals(lastPathComponent)) {
-                    jSplitPane.setRightComponent(new Label("3"));
+                    jSplitPane.setRightComponent(new PowerBankManagement());
                     jSplitPane.setDividerLocation(120);
                     jSplitPane.setDividerSize(0);
                 }
             }
         });
-
+        //组装菜单
         jFrame.setJMenuBar(jMenuBar);
         jMenuBar.add(jMenu);
         jMenu.add(jMenuItem1);
         jMenu.add(jMenuItem2);
 
-        jPanel.add(jButton1);
-        jPanel.add(jButton2);
-        jPanel.add(jButton3);
-
-        jFrame.add(jPanel,"North");
         jSplitPane.setLeftComponent(jTree);
 
         jFrame.add(jSplitPane);
         jFrame.setSize(800,600);
         jFrame.setVisible(true);
-
     }
 }

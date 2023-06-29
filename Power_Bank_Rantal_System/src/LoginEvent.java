@@ -37,6 +37,7 @@ public class LoginEvent extends DBHelper implements ActionListener {
                 ResultSet rs = dbHelper.query(sql1);
                 //对数据进行判断
                 try {
+
                     if(rs.next()){
 
                         JOptionPane.showMessageDialog(null,"登录成功","Success",JOptionPane.INFORMATION_MESSAGE);

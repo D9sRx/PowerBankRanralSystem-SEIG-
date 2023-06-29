@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class PersoalCenterAdapter extends MouseAdapter {
     PersonalCenterConponent pc;
-    public double money;
+    static public double money;
     public PersoalCenterAdapter(PersonalCenterConponent pc){
         this.pc=pc;
     }
@@ -16,9 +16,8 @@ public class PersoalCenterAdapter extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
         Object o=  e.getSource();
-        if(((JLabel)o).getText().equals("余额")){
+        if(((JLabel)o).getText().equals("点击查询余额")){
             if (e.getButton() == e.BUTTON1) {
-                System.out.println(1);
                 //查询并显示余额
                 DBHelper dbHelper = new DBHelper();
                 Data data = new Data();
@@ -29,9 +28,9 @@ public class PersoalCenterAdapter extends MouseAdapter {
                     if (rs.next()) {
                         money = rs.getDouble("money");
                         System.out.println(money);
-                        pc.jl1.setText("余额："+money);
+                        pc.jl1.setText("余额："+money);//显示余额
                     }else{
-                        System.out.println(-8);
+                        JOptionPane.showMessageDialog(null,"查询失败","Warning",JOptionPane.WARNING_MESSAGE);
                     }
                 }catch (Exception ex) {
                     ex.getStackTrace();

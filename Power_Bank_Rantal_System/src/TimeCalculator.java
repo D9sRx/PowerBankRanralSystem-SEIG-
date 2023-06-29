@@ -14,20 +14,21 @@ public class TimeCalculator extends JFrame {
 
     DataUploader dataUploader;
 
-    PowerBankBillCountor powerBankBillCountor;
+    PowerBankBillCounter powerBankBillCounter;
+
+    UserMoneyChanger userMoneyChanger;
 
     public TimeCalculator() {
 
         //data = new Data();
         dataUploader = new DataUploader();
-        powerBankBillCountor = new PowerBankBillCountor();
+        powerBankBillCounter = new PowerBankBillCounter();
+        userMoneyChanger = new UserMoneyChanger();
         JFrame frame = new JFrame("Timer Demo");
         frame.setLayout(new GridLayout(3,1));//重新设置布局
 
         JLabel label = new JLabel("00:00:00", SwingConstants.CENTER);
         label.setFont(label.getFont().deriveFont(64.0f)); // 调整字体大小
-        JLabel label1=new JLabel("您的余额为：");
-        JTextField textField=new JTextField(8);//显示余额
 
 
 
@@ -57,7 +58,7 @@ public class TimeCalculator extends JFrame {
 
 
                 JOptionPane.showMessageDialog(null, "退还成功\n"+"总使用时长为"+label.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                Data data = new Data();
+                Data data = new Data();//创建data对象用于存放数据
                 // 获取当前系统时间
                 Date currentTime = new Date();
 
@@ -69,19 +70,20 @@ public class TimeCalculator extends JFrame {
 
                 seconds += minutes*60+hours*3600;
 
-
+                //传输数据到data
                 data.setOverTime(formattedTime);
                 data.setSecond(seconds);
                 data.setMinutes(minutes);
                 data.setHours(hours);
 
 
-                powerBankBillCountor.count();
-                dataUploader.upload();
+                powerBankBillCounter.count();//计算费用
+                dataUploader.upload();//使用记录上传
+                userMoneyChanger.change();//扣费
 
-                PowerBankBillCountor pc = new PowerBankBillCountor();
+
                 DBHelper dbHelper = new DBHelper();
-                String sql = "update powerbanktable set power = '"+pc.power+"' where id = 1";
+                String sql = "update powerbanktable set power = '"+ powerBankBillCounter.power+"' where type = '"+RentalEvent.type+"'";
                 int i =dbHelper.update(sql);
                 if (i > 0) {
                     try {
@@ -91,6 +93,9 @@ public class TimeCalculator extends JFrame {
                         throw new RuntimeException(e);
                     }
                 }
+
+
+
 
                 frame.dispose();
                 hours=0;
@@ -104,8 +109,7 @@ public class TimeCalculator extends JFrame {
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
-        panel1.add(label1);
-        panel1.add(textField);
+
         panel2.add(label);
         panel3.add(button);
 
